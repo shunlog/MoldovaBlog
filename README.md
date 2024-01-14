@@ -13,8 +13,12 @@
 ``` sh
 python3 -m venv .venv
 source .venv/bin/activate
-
 python3 -m pip install -r requirements.txt
+
+python3 manage.py migrate
+
+# create account for admin interface 
+python3 manage.py createsuperuser
 ```
 
 # Running
@@ -22,9 +26,7 @@ python3 -m pip install -r requirements.txt
 ``` sh
 source .venv/bin/activate
 
-# only required on the first run,
-# or if the models have been changed
-python3 manage.py makemigrations
+# required if the models have been changed
 python3 manage.py migrate
 
 python3 manage.py runserver
