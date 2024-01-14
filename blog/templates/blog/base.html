@@ -25,18 +25,22 @@
             </p>
         <![endif]-->
 
-        <nav>
-            <ul>
-                <li>
-                    <a href="{% url 'blog:index' %}"> Home </a>
-                </li>
-                <li>
-                    <a href="{% url 'blog:post_list' %}"> Posts </a>
-                </li>
-            </ul>
-        </nav>
+        <header>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="{% url 'blog:index' %}"> Home </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'blog:post_list' %}"> Posts </a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
 
-        {% block content %} {% endblock %}
+        <main>
+            {% block content %} {% endblock %}
+        </main>
 
     </body>
 </html>
