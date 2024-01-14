@@ -2,14 +2,37 @@
 
 {% block content %}
 
-    <h1>{{post.title }}</h1>
+    <article>
+        <header>
+            <h1>{{post.title }}</h1>
+            <p><time datetime="2009-10-09">3 days ago</time></p>
+            <link href="?comments=0">
+        </header>
 
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
-    <h2>Comments </h2>
-    <ul>
+    </article>
+
+    <section>
+        <!-- This HTML structure looks funky, but it's the right way: https://stackoverflow.com/a/12648918 -->
+        <header>
+            <h1>Comments</h1>
+        </header>
+
         {% for comment in post.comment_set.all %}
-            <li>{{ comment.text }}</li>
+            <aside>
+                <link href="#c1">
+                <p> {{ comment.text }} </p>
+                <footer>
+                    <i>Posted by:
+                        <a>George Washington</a>
+                        <p><time datetime="2009-10-10">15 minutes ago</time></p>
+                    </i>
+                </footer>
+            </aside>
         {% endfor %}
-    </ul>
+
+    </section>
+
 
 {% endblock content %}
