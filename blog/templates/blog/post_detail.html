@@ -2,9 +2,10 @@
 
 {% block content %}
 
+
     <article>
         <header>
-            <h1>{{post.title }}</h1>
+            <h1>{% block title %}{{post.title }}{% endblock %}</h1>
             <p><time datetime="2009-10-09">3 days ago</time></p>
             <link href="?comments=0">
         </header>
