@@ -28,12 +28,26 @@
         <header>
             <nav>
                 <ul>
-                    <li>
-                        <a href="{% url 'blog:index' %}"> Home </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'blog:post_list' %}"> Posts </a>
-                    </li>
+                    <li> <a href="{% url 'blog:index' %}"> Home </a> </li>
+                    <li> <a href="{% url 'blog:post_list' %}"> Posts </a> </li>
+                </ul>
+                <ul>
+                    {% if user.is_authenticated %}
+
+                        <li> <a>Profile</a> </li>
+                        <li>
+                            <form style="display: none" id="logout_form"
+                                  method="post" action="{% url 'logout' %}">
+                                {% csrf_token %}
+                            </form>
+                            <button type="submit" form="logout_form"> Logout </button>
+                        </li>
+
+                    {% else %}
+
+                        <li> <a href="{% url 'login' %}">Login</a> </li>
+
+                    {% endif %}
                 </ul>
             </nav>
         </header>

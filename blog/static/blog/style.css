@@ -549,3 +549,14 @@ section.comment aside {
 section.comment div.author {
     text-align: left;
 }
+
+/* https://docs.djangoproject.com/en/5.0/ref/forms/api/#how-errors-are-displayed */
+.errorlist {
+    background-color: var(--color-secondary-accent);
+    border-left: 4px solid var(--color-secondary);
+}
+
+nav button {
+    padding: 0.25rem 1rem;
+    margin: unset;
+}
