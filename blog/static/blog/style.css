@@ -534,3 +534,18 @@ blockquote footer {
     background-color: rgb(202, 202, 232);
     border-radius: 10px;
 }
+
+
+/* My own styles */
+
+section.comment {
+    display: block;
+}
+
+section.comment aside {
+    width: unset;
+}
+
+section.comment div.author {
+    text-align: left;
+}

@@ -13,7 +13,7 @@
 
     </article>
 
-    <section>
+    <section class="comment">
         <!-- This HTML structure looks funky, but it's the right way: https://stackoverflow.com/a/12648918 -->
         <header>
             <h1>Comments</h1>
@@ -22,13 +22,10 @@
         {% for comment in post.comment_set.all %}
             <aside>
                 <link href="#c1">
+                <div class="author">
+                    <a>George Washington</a> <time datetime="2009-10-10">15 minutes ago</time>
+                </div>
                 <p> {{ comment.text }} </p>
-                <footer>
-                    <i>Posted by:
-                        <a>George Washington</a>
-                        <p><time datetime="2009-10-10">15 minutes ago</time></p>
-                    </i>
-                </footer>
             </aside>
         {% endfor %}
 
