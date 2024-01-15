@@ -10,8 +10,13 @@ def send_verification_email(username, email):
     def create_verification_token():
         '''Returns a string - the verification token (JWT).
         The token should contain username and email.'''
-        payload = {'username': str(username), 'email': email, "exp": datetime.datetime.utcnow() + datetime.timedelta(seconds=120),}
+        payload = {
+            'username': str(username),
+            'email': str(email),
+            "exp": datetime.datetime.utcnow() + datetime.timedelta(days=2)
+            }
         return jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
+
     token = create_verification_token()
     url = reverse("email_verify", args=(token,))
     send_mail(
