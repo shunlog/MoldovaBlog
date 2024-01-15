@@ -7,17 +7,21 @@ from .utils import send_verification_email
 
 class UserEmailCreationForm(UserCreationForm):
     '''Override UserCreationForm to add an email field.'''
-    email = forms.EmailField(label='Email')
+    email = forms.EmailField(label='Email', required=False)
 
     class Meta:
         model = User
         fields = ("username", "email", "password1", "password2")
 
+    def send_email(self):
+        # example: https://docs.djangoproject.com/en/5.0/topics/class-based-views/generic-editing/#basic-forms
+        email = self.cleaned_data["email"]
+        username = self.cleaned_data["username"]
+        send_verification_email(username, email)
+
     def save(self, commit=True):
         user = super(UserCreationForm, self).save(commit=False)
         user.email = ""
-        email = self.cleaned_data["email"]
-        send_verification_email(user, email)
         if commit:
             user.save()
         return user
@@ -26,7 +30,7 @@ class UserEmailCreationForm(UserCreationForm):
         '''Verify that the email is unique.
         This is the best place to do it, see https://docs.djangoproject.com/en/5.0/ref/forms/validation/#form-and-field-validation.
         '''
-        data = self.cleaned_data['email']
-        if User.objects.filter(email=data).exists():
+        email = self.cleaned_data['email']
+        if email != "" and User.objects.filter(email=email).exists():
             raise forms.ValidationError("This email is already used.")
-        return data
+        return email

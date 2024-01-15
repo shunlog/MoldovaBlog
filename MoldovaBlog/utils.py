@@ -1,8 +1,10 @@
-from django.urls import reverse
 import jwt
 import datetime
+
+from django.urls import reverse
 from django.conf import settings
 from django.core.mail import send_mail
+from django.contrib.auth.models import User
 
 
 def create_verification_token(username, email):
@@ -40,3 +42,26 @@ def validate_verification_token(token):
         raise ValueError('Token has expired')
     except (jwt.exceptions.InvalidSignatureError, jwt.exceptions.DecodeError):
         raise ValueError('Invalid token')
+
+
+def assign_email(token):
+    '''Given a verification token, try to assign the email to username.
+    Return username and email if successful, else raise exception.'''
+    username, email = validate_verification_token(token)
+
+    try:
+        u = User.objects.get(username=username)
+    except User.DoesNotExist:
+        raise ValueError("No such username")
+
+    try:
+        u = User.objects.get(email=email)
+    except User.DoesNotExist:
+        pass
+    else:
+        raise ValueError("Email already assigned")
+
+    u.email = email
+    u.save()
+
+    return username, email
