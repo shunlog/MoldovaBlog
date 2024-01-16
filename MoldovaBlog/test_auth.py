@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 
 from .utils import create_verification_token, validate_verification_token
+from .forms import UserEmailCreationForm
 
 
 class TokenTestCase(TestCase):
@@ -50,17 +51,14 @@ class AuthTestCase(TestCase):
         u = User.objects.get(username=self.uname)
         self.assertEqual(u.email, "")
 
-    # TODO test for field errors instead of status_code 400
-    # def test_required_fields(self):
-    #     '''Return an error if not required fields were provided.'''
-    #     response = self.c.post(reverse("signup"), {})
-    #     self.assertEqual(response.status_code, 400)
+    def test_required_fields(self):
+        '''Return an error if not all required fields were provided.'''
+        f = UserEmailCreationForm({})
+        self.assertEqual(len(f.errors), 3)
 
-    #     response = self.c.post(reverse("signup"),
-    #                       {"username": self.uname,
-    #                        "password1": self.pwd})
-    #     response = self.c.post(reverse("signup"), {})
-    #     self.assertEqual(response.status_code, 400)
+        f = UserEmailCreationForm({"username": self.uname,
+                                   "password1": self.pwd})
+        self.assertEqual(len(f.errors), 1)
 
     def test_email_is_optional(self):
         '''Email field is optional.'''
@@ -102,9 +100,11 @@ class AuthTestCase(TestCase):
         u1 = User.objects.create_user(username=self.uname, password=self.pwd)
         u2 = User.objects.create_user(username=self.uname2, password=self.pwd2)
 
+        # both users want to verify the same email
         tok1 = create_verification_token(self.uname, self.email)
         tok2 = create_verification_token(self.uname2, self.email)
 
+        # only the first succeeds
         response = self.c.post(reverse("email_verify", args=(tok2,)))
         self.assertEqual(response.status_code, 200)
 
