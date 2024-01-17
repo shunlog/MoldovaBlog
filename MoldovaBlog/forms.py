@@ -13,7 +13,7 @@ class UserEmailCreationForm(UserCreationForm):
         model = User
         fields = ("username", "email", "password1", "password2")
 
-    def send_email(self):
+    def send_verification_email(self):
         # example: https://docs.djangoproject.com/en/5.0/topics/class-based-views/generic-editing/#basic-forms
         email = self.cleaned_data["email"]
         username = self.cleaned_data["username"]

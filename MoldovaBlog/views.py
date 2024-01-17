@@ -15,7 +15,7 @@ class SignUpView(generic.CreateView):
 
     def form_valid(self, form):
         # example: https://docs.djangoproject.com/en/5.0/topics/class-based-views/generic-editing/#basic-forms
-        form.send_email()
+        form.send_verification_email()
         return super().form_valid(form)
 
 

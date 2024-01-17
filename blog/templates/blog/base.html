@@ -35,6 +35,9 @@
                     {% if user.is_authenticated %}
 
                         <li> <a>Profile</a> </li>
+
+                        <li> <a href="{% url 'password_change' %}">Change password</a> </li>
+
                         <li>
                             <form style="display: none" id="logout_form"
                                   method="post" action="{% url 'logout' %}">
