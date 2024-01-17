@@ -27,12 +27,12 @@ class PostListView(ListView):
 
 def create_comment(request, post_pk):
     if request.method != "POST":
-        raise Http404("Only POST requests supported")
+        raise Http404("Only POST requests supported", request.method)
 
     form = CommentForm(request.POST)
 
     if not form.is_valid():
-        raise Http404("Invalid form")
+        raise Http404("Invalid form", form.errors)
 
     post = get_object_or_404(Post, pk=post_pk)
 
