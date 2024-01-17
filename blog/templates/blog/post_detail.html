@@ -6,7 +6,7 @@
     <article>
         <header>
             <h1>{% block title %}{{post.title }}{% endblock %}</h1>
-            <p><time datetime="2009-10-09">3 days ago</time></p>
+            <p><time datetime="{{ post.pub_date.isoformat }}">{{ post.get_time_passed }}</time></p>
             <link href="?comments=0">
         </header>
 
@@ -26,9 +26,9 @@
                     {% else %}
                         [deleted]
                     {% endif %}
-                    <time datetime="2009-10-10">15 minutes ago</time>
+                    <time datetime="{{ comment.pub_date.isoformat }}">{{ comment.get_time_passed }}</time>
                 </div>
-                <p> {{ comment.text }} </p>
+                <p> {{ comment.text | linebreaks }} </p>
             </aside>
         {% endfor %}
 
