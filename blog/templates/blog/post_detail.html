@@ -35,7 +35,7 @@
         {% if user.is_authenticated %}
             <form method="post" action="{% url 'blog:create_comment' post.id %}">
                 {% csrf_token %}
-                <legend><h2>Leave a comment</h2></legend>
+                <h2>Leave a comment</h2>
                 {{ comment_form }}
                 <input type="submit" value="Comment">
             </form>
