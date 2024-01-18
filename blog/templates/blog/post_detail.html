@@ -11,6 +11,18 @@
 
         {{ post.text | linebreaks }}
 
+        <div class='gallery-grid'>
+            {% for img in post.image_set.all %}
+                <figure>
+                    <a class="spotlight"
+                       href="{{ img.file.url }}"
+                       data-description="{{ img.description }}">
+                        <img src="{{ img.file.url }}" alt="{{ img.alt }}">
+                    </a>
+                </figure>
+            {% endfor %}
+        </div>
+
     </article>
 
     <section class="comment">

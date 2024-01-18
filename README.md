@@ -27,6 +27,15 @@ python3 manage.py migrate
 python3 manage.py createsuperuser  # create account for admin interface 
 ```
 
+Create the media folder at MEDIA_ROOT 
+
+``` sh
+sudo mkdir -p /var/www
+sudo mkdir /var/www/MoldovaBlog
+sudo chown <your_username> /var/www/MoldovaBlog
+chgrp <your_username> /var/www/MoldovaBlog
+```
+
 # Running
 
 ``` sh

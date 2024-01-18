@@ -540,3 +540,63 @@ nav button {
     padding: 0.25rem 1rem;
     margin: unset;
 }
+
+
+/* https://css-tricks.com/adaptive-photo-layout-with-flexbox/ */
+.gallery-grid {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.gallery-grid a {
+    display: inline;
+
+    max-width: 100%;
+}
+
+.gallery-grid figure {
+    max-width: calc(100% - 1em);
+    padding: .5em;
+    height: 20vh;
+    flex-grow: 1;
+}
+
+.gallery-grid figure:last-child {
+    flex-grow: 10;
+}
+
+.gallery-grid img {
+    max-height: 100%;
+    min-width: 100%;
+    object-fit: cover;
+    vertical-align: bottom;
+    border-radius: 1vmin;
+}
+
+@media (max-aspect-ratio: 1/1) {
+    .gallery-grid figure {
+        height: 30vh;
+    }
+}
+
+@media (max-height: 480px) {
+    .gallery-grid figure {
+        height: 80vh;
+    }
+}
+
+@media (max-aspect-ratio: 1/1) and (max-width: 480px) {
+    .gallery-grid {
+        flex-direction: row;
+    }
+
+    .gallery-grid figure {
+        height: auto;
+        width: 100%;
+    }
+    .gallery-grid img {
+        width: 100%;
+        max-height: 75vh;
+        min-width: 0;
+    }
+}

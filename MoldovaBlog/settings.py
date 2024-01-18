@@ -152,3 +152,7 @@ EMAIL_PORT = '587'
 EMAIL_HOST_USER = 'visitmoldova2023@gmail.com'
 EMAIL_HOST_PASSWORD = 'xime ulub ewub fgqd'
 EMAIL_USE_TLS = True
+
+# https://docs.djangoproject.com/en/5.0/ref/settings/#std-setting-MEDIA_ROOT
+MEDIA_ROOT = '/var/www/MoldovaBlog/media/'
+MEDIA_URL = 'media/'
