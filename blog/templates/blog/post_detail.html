@@ -11,37 +11,80 @@
 
         {{ post.text | linebreaks }}
 
-        <div class='gallery-grid'>
-            {% for img in post.image_set.all %}
-                <figure>
-                    <a class="spotlight"
-                       href="{{ img.file.url }}"
-                       data-description="{{ img.description }}">
-                        <img src="{{ img.file.url }}" alt="{{ img.alt }}">
-                    </a>
-                </figure>
-            {% endfor %}
-        </div>
-
     </article>
 
-    <section class="comment">
-        <h1>Comments</h1>
+    {% if post.image_set.all %}
+        <section>
+            <hr />
+            <header>
+                <h2>Gallery</h2>
+            </header>
 
-        {% for comment in post.comment_set.all %}
-            <aside>
-                <link href="#c1">
-                <div class="author">
-                    {% if comment.author %}
-                        <a>{{comment.author.username}}</a>
-                    {% else %}
-                        [deleted]
-                    {% endif %}
-                    <time datetime="{{ comment.pub_date.isoformat }}">{{ comment.get_time_passed }}</time>
-                </div>
-                <p> {{ comment.text | linebreaks }} </p>
-            </aside>
-        {% endfor %}
+            <div class='gallery-grid'>
+                {% for img in post.image_set.all %}
+                    <figure>
+                        <a class="spotlight"
+                           href="{{ img.file.url }}"
+                           data-description="{{ img.description }}">
+                            <img src="{{ img.file.url }}" alt="{{ img.alt }}">
+                        </a>
+                    </figure>
+                {% endfor %}
+            </div>
+
+        </section>
+    {% endif %}
+
+    {% if post.location %}
+        <section>
+            <hr />
+            <header>
+                <h2>Location</h2>
+                <p>You can view the location on the map.
+                    For more information about this embedded map, visit
+                    <a href="https://developers.google.com/maps/documentation/embed/get-started">
+                        Google's documentation</a>.
+                </p>
+            </header>
+
+            <iframe
+                style="border:0"
+                loading="lazy"
+                allowfullscreen
+                referrerpolicy="no-referrer-when-downgrade"
+                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCFTeAI-DV6kRHMJN_iHT2cpmJKsMjCTBw
+                       &q={{ post.location | urlencode }}
+                       &maptype=satellite">
+            </iframe>
+
+        </section>
+    {% endif %}
+
+
+    <section class="comment">
+        <hr />
+        <header>
+            <h2>Comments</h2>
+        </header>
+
+        {% if not post.comment_set.all %}
+            <p>Cricket chirp...</p>
+        {% else %}
+            {% for comment in post.comment_set.all %}
+                <aside>
+                    <link href="#c1">
+                    <div class="author">
+                        {% if comment.author %}
+                            <a>{{comment.author.username}}</a>
+                        {% else %}
+                            [deleted]
+                        {% endif %}
+                        <time datetime="{{ comment.pub_date.isoformat }}">{{ comment.get_time_passed }}</time>
+                    </div>
+                    <p> {{ comment.text | linebreaks }} </p>
+                </aside>
+            {% endfor %}
+        {% endif %}
 
         {% if user.is_authenticated %}
             <section>

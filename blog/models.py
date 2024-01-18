@@ -9,6 +9,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     pub_date = models.DateTimeField("date published")
     text = models.TextField(max_length=5000)
+    location = models.CharField(max_length=1000, blank=True)
 
     def __str__(self):
         return self.title
