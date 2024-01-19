@@ -1,0 +1,66 @@
+{% extends "blog/base.html" %}
+
+{% load static %}
+
+{% block title %}{{user.username}}'s profile{% endblock %}
+
+{% block content %}
+
+    <div class="profile-view">
+        <article>
+            <header>
+                <img class="profile-pic"
+                     {% if user.profile.picture %}
+                     src="{{  user.profile.picture.url }}"
+                     {% else %}
+                     src="{% static 'blog/blank_profile_picture.png' %}"
+                     {% endif %}
+                     alt="User's profile picture" />
+                <h2>{{ user.username }}</h2>
+                <p>{{ user.profile.role }}</p>
+            </header>
+
+            <p>{{user.profile.bio}}</p>
+        </article>
+
+        <article>
+
+            {% if user.post_set.all %}
+                <section>
+                    <header>
+                        <h2>Posts</h2>
+                    </header>
+
+                    <ul>
+                        {% for post in user.post_set.all %}
+                            <li>
+                                <a href="{{ post.get_absolute_url }}">
+                                    {{ post.title }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </section>
+            {% endif %}
+
+            <section class="comment">
+                <header>
+                    <h2>Comments</h2>
+                </header>
+
+                {% for comment in user.comment_set.all %}
+                    <aside>
+                        <div class="author">
+                            <a href="{{  comment.get_absolute_url }}">{{  comment.post.title }}</a>
+                            <time datetime="{{ comment.pub_date.isoformat }}">{{ comment.get_time_passed }}</time>
+                        </div>
+                        <p> {{ comment.text | linebreaks }} </p>
+                    </aside>
+                {% endfor %}
+            </section>
+
+        </article>
+
+    </div>
+
+{% endblock content %}

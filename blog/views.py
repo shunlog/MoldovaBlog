@@ -3,13 +3,19 @@ from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.edit import CreateView
 from django.views.generic import DetailView, ListView
+from django.contrib.auth.models import User
 
-from .models import Post, Comment
+from .models import Post, Comment, Profile
 from .forms import CommentForm
 
 
 def index(request):
     return render(request, "blog/index.html")
+
+
+class UserDetailView(DetailView):
+    model = User
+    template_name = "blog/user_detail.html"
 
 
 class PostDetailView(DetailView):

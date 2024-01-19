@@ -6,7 +6,6 @@
         <header>
             <h1>{% block title %}{{post.title }}{% endblock %}</h1>
             <p><time datetime="{{ post.pub_date.isoformat }}">{{ post.get_time_passed }}</time></p>
-            <link href="?comments=0">
         </header>
 
         {{ post.text | linebreaks }}
@@ -71,11 +70,12 @@
             <p>Cricket chirp...</p>
         {% else %}
             {% for comment in post.comment_set.all %}
-                <aside>
-                    <link href="#c1">
+                <aside id="{{ comment.pk }}">
                     <div class="author">
                         {% if comment.author %}
-                            <a>{{comment.author.username}}</a>
+                            <a href="{{ comment.author.profile.get_absolute_url }}">
+                                {{comment.author.username}}
+                            </a>
                         {% else %}
                             [deleted]
                         {% endif %}

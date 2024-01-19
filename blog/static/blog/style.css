@@ -524,6 +524,11 @@ section.comment {
 
 section.comment aside {
     width: unset;
+    background-color: var(--color-bg);
+}
+
+section.comment aside a {
+    color: var(--color-link);
 }
 
 section.comment div.author {
@@ -601,7 +606,39 @@ nav button {
     }
 }
 
+
+/* Google map */
 iframe {
     width: 100%;
     height: 50vh;
+}
+
+
+/* Profile view */
+.profile-view {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.profile-view article:nth-of-type(1) {
+    flex-grow: 1;
+    min-width: 250px;
+    flex-basis: min-content;
+}
+
+.profile-view article:nth-of-type(2) {
+    flex-grow: 3;
+    min-width: 300px;
+    flex-basis: min-content;
+}
+
+.profile-pic {
+    border-style: solid;
+    border-color: gray;
+    border-width: thin;
+    border-radius: 100%;
+
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
 }
