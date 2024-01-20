@@ -2,6 +2,8 @@ from django.urls import reverse
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from .utils import time_passed_string
 
@@ -10,6 +12,14 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     picture = models.ImageField(blank=True)
     bio = models.TextField(max_length=1000, blank=True)
+
+    @receiver(post_save, sender=User)
+    def on_user_create(sender, instance, created, **kwargs):
+        '''Create a profile for new users automatically'''
+        if not created:
+            return
+        p = Profile.objects.create(user=instance)
+        p.save()
 
     def get_absolute_url(self):
         return reverse('blog:user_detail', args=[str(self.user.pk)])
