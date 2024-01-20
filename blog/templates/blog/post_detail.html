@@ -79,7 +79,10 @@
                         {% else %}
                             [deleted]
                         {% endif %}
-                        <time datetime="{{ comment.pub_date.isoformat }}">{{ comment.get_time_passed }}</time>
+                        posted
+                        <a href="{{  comment.get_absolute_url }}">
+                            <time datetime="{{ comment.pub_date.isoformat }}">{{ comment.get_time_passed }}</time>
+                        </a>
                     </div>
                     <p> {{ comment.text | linebreaks }} </p>
                 </aside>
