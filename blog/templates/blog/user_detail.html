@@ -48,19 +48,20 @@
                     <h2>Comments</h2>
                 </header>
 
-                {% for comment in userobj.comment_set.all %}
+                {% for comment in comments %}
                     <aside>
                         <div class="author">
-                            <a href="{{  comment.get_absolute_url }}">{{  comment.post.title }}</a>
-                            <time datetime="{{ comment.pub_date.isoformat }}">{{ comment.get_time_passed }}</time>
+                            <a href="{{  comment.get_absolute_url }}">
+                                <time datetime="{{ comment.pub_date.isoformat }}">{{ comment.get_time_passed }}</time>
+                            </a>
+                            , on post <a href="{{ comment.post.get_absolute_url }}">{{ comment.post.title | truncatechars:50 }}</a>
                         </div>
                         <p> {{ comment.text | linebreaks }} </p>
                     </aside>
                 {% endfor %}
+
             </section>
-
         </article>
-
     </div>
 
 {% endblock content %}

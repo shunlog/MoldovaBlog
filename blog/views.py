@@ -18,6 +18,12 @@ class UserDetailView(DetailView):
     template_name = "blog/user_detail.html"
     context_object_name = "userobj"  # don't overwrite "user" object
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["comments"] = User.objects.get(id=self.kwargs['pk'])\
+            .comment_set.order_by("-pub_date")
+        return context
+
 
 class PostDetailView(DetailView):
     model = Post
