@@ -16,6 +16,7 @@ def index(request):
 class UserDetailView(DetailView):
     model = User
     template_name = "blog/user_detail.html"
+    context_object_name = "userobj"  # don't overwrite "user" object
 
 
 class PostDetailView(DetailView):
