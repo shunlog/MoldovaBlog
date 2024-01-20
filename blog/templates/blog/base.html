@@ -36,7 +36,7 @@
                 <ul>
                     {% if user.is_authenticated %}
 
-                        <li> <a>Profile</a> </li>
+                        <li> <a href="{% url 'blog:user_detail' user.id %}">Profile</a> </li>
 
                         <li> <a href="{% url 'password_change' %}">Change password</a> </li>
 
