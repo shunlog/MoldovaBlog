@@ -13,7 +13,7 @@ def create_verification_token(username, email):
     payload = {
         'username': str(username),
         'email': str(email),
-        "exp": datetime.datetime.utcnow() + datetime.timedelta(days=2)
+        "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=2)
         }
     return jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
 

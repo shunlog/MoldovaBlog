@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
-from unittest import skip
+import unittest
+import datetime
+
 from django.core import mail
 from django.test import Client, TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
+from freezegun import freeze_time
 
 from .utils import create_verification_token, validate_verification_token
 from .forms import UserEmailCreationForm
@@ -26,7 +29,15 @@ class TokenTestCase(TestCase):
         '''Test that a wrong token raises an error.'''
         tok = create_verification_token(self.u1.username, self.u1_email)
         tok = tok[-1] + chr(ord(tok[-1]) + 1)  # garble the token a bit
-        self.assertRaises(ValueError, validate_verification_token, (tok,))
+        with self.assertRaises(ValueError):
+            validate_verification_token(tok)
+
+    def test_token_expired(self):
+        '''Tokens should expire in 2 hours.'''
+        tok = create_verification_token(self.u1.username, self.u1_email)
+        with freeze_time(datetime.datetime.now() + datetime.timedelta(hours=2.1)):
+            with self.assertRaises(ValueError):
+                validate_verification_token(tok)
 
 
 class AuthTestCase(TestCase):
