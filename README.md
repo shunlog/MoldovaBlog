@@ -21,13 +21,17 @@ source .venv/bin/activate
 Clone this repository and run this in the project directory:
 ``` sh
 python3 -m pip install -r requirements.txt
-
 python3 manage.py migrate
-
 python3 manage.py createsuperuser  # create account for admin interface 
 ```
 
-Create the media folder at MEDIA_ROOT 
+Copy the example configuration to `MoldovaBlog/secret_config.py` and adapt it to your environment:
+
+``` sh
+cp ./MoldovaBlog/example_config.py ./MoldovaBlog/secret_config.py 
+```
+
+Create the media folder at your chosen `MEDIA_ROOT`:`
 
 ``` sh
 sudo mkdir -p /var/www

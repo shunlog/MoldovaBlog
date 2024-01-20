@@ -9,3 +9,5 @@ build
 htmlcov
 /.venv/
 /db.sqlite3
+
+/MoldovaBlog/secret_config.py
