@@ -50,6 +50,12 @@ python3 manage.py runserver
 
 # Testing
 
+Install requirements for tests:
 ``` sh
-python3 manage.py test
+python3 -m pip install -r requirements-test.txt
+```
+
+Run all the tests:
+``` sh
+python3 manage.py test --parallel
 ```
