@@ -28,7 +28,7 @@ python3 manage.py createsuperuser  # create account for admin interface
 Copy the example configuration to `MoldovaBlog/secret_config.py` and adapt it to your environment:
 
 ``` sh
-cp ./MoldovaBlog/example_config.py ./MoldovaBlog/secret_config.py 
+cp ./MoldovaBlog/example_secret_settings.py ./MoldovaBlog/secret_settings.py 
 ```
 
 Create the media folder at your chosen `MEDIA_ROOT`:`

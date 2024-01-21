@@ -26,7 +26,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install -r requirements-test.txt
-        cp ./MoldovaBlog/example_config.py ./MoldovaBlog/secret_config.py
+        cp ./MoldovaBlog/example_secret_settings.py ./MoldovaBlog/secret_settings.py
     - name: Run Tests
       run: |
         python manage.py test --parallel
