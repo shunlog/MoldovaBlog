@@ -5,7 +5,13 @@
     <article>
         <header>
             <h1>{% block title %}{{post.title }}{% endblock %}</h1>
-            <p><time datetime="{{ post.pub_date.isoformat }}">{{ post.get_time_passed }}</time></p>
+            <p>
+                Posted
+                <time datetime="{{ post.pub_date.isoformat }}">{{ post.get_time_passed }}</time>
+                {% if post.author %}
+                    by <a href="{{ post.author.profile.get_absolute_url }}"> {{post.author.username}} </a>
+                {% endif %}
+            </p>
         </header>
 
         {{ post.text | linebreaks }}
