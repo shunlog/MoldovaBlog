@@ -6,24 +6,31 @@
 
 {% block content %}
 
-    <div class="profile-view">
-        <article>
-            <header>
-                <img class="profile-pic"
-                     {% if userobj.profile.picture %}
-                     src="{{  userobj.profile.picture.url }}"
-                     {% else %}
-                     src="{% static 'blog/blank_profile_picture.png' %}"
-                     {% endif %}
-                     alt="User's profile picture" />
+    <section class="flex three center">
+        <div class="two-third third-800">
+            <div class="profile card">
+                <img
+                    {% if userobj.profile.picture %}
+                        src="{{  userobj.profile.picture.url }}"
+                    {% else %}
+                        src="{% static 'blog/blank_profile_picture.png' %}"
+                    {% endif %}
+                    alt="User's profile picture" />
+                <footer>
+
                 <h2>{{ userobj.username }}</h2>
-                <p>{{ userobj.profile.role }}</p>
-            </header>
+                <p>Role: {{ userobj.profile.role }}</p>
+                </footer>
+            </div>
+        </div>
 
-            <p>{{userobj.profile.bio}}</p>
-        </article>
-
-        <article>
+        <div class="full two-third-800">
+            <section>
+                <header>
+                    <h2>About me</h2>
+                </header>
+                <p>{{userobj.profile.bio}}</p>
+            </section>
 
             {% if userobj.post_set.all %}
                 <section>
@@ -43,25 +50,26 @@
                 </section>
             {% endif %}
 
-            <section class="comment">
+            <section>
                 <header>
                     <h2>Comments</h2>
                 </header>
 
                 {% for comment in comments %}
-                    <aside>
-                        <div class="author">
+                    <aside id="{{ comment.pk }}" class="card comment">
+                        <header>
                             <a href="{{  comment.get_absolute_url }}">
                                 <time datetime="{{ comment.pub_date.isoformat }}">{{ comment.get_time_passed }}</time>
                             </a>
                             , on post <a href="{{ comment.post.get_absolute_url }}">{{ comment.post.title | truncatechars:50 }}</a>
-                        </div>
-                        <p> {{ comment.text | linebreaks }} </p>
+                        </header>
+                        <p> {{ comment.text | linebreaksbr }} </p>
                     </aside>
                 {% endfor %}
 
             </section>
-        </article>
-    </div>
+        </div>
+    </section>
+
 
 {% endblock content %}
