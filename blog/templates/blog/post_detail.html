@@ -20,6 +20,8 @@
 
     </article>
 
+    {% include 'blog/horiz_decoration.html' %}
+
     {% if post.image_set.all %}
         <section>
             <header>
@@ -115,6 +117,8 @@
         {% endif %}
 
     </section>
+
+    {% include 'blog/horiz_decoration.html' %}
 
 
 {% endblock content %}
