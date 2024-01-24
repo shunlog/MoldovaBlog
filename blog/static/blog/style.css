@@ -3,7 +3,7 @@
 }
 
 body {
-    background-image: linear-gradient( #fff9e680, #fff9e680 ), url("chain_tile_vert.jpg");
+    background-image: linear-gradient( #ffffffe5, #ffffffe5), url("chain_tile_vert.jpg");
     background-repeat: repeat;
 }
 
