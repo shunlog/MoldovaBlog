@@ -29,8 +29,28 @@ nav {
     background-color: #eadab5;
 }
 
+/* Forms */
+
 form {
     padding-bottom: 20px;
+}
+
+form .helptext, form .errorlist {
+    padding: 10px 10px;
+    border-radius: 10px;
+    margin: 10px 0;
+}
+
+form .helptext {
+    background-color: antiquewhite;
+}
+
+form .errorlist {
+    background-color: lightpink;
+}
+
+form div ul {
+    margin: 0;
 }
 
 /* Gallery  */
@@ -150,10 +170,6 @@ aside.notification {
 
 .warning {
     background-color: lightyellow;
-}
-
-.error, ul.errorlist {
-    background-color: lightpink;
 }
 
 form > div {

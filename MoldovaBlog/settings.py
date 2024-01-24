@@ -15,7 +15,6 @@ LOGOUT_REDIRECT_URL = 'blog:index'
 ROOT_URLCONF = 'MoldovaBlog.urls'
 WSGI_APPLICATION = 'MoldovaBlog.wsgi.application'
 
-
 INSTALLED_APPS = [
     "blog.apps.BlogConfig",
     'django.contrib.admin',
@@ -24,7 +23,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.forms',
 ]
+
+# WHY is this not the default?
+# needed to make default form templates work,
+# so we can override them
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
