@@ -1,16 +1,20 @@
+{% load static %}
+
 <!doctype html>
 <html class="no-js" lang="">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <title>
-            {% block title %}Default title{% endblock %}
+            {% block title %}Home page{% endblock %} | MoldovaBlog
         </title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
         <!-- Place favicon.ico in the root directory -->
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic">
 
         {% load static %}
         <link rel="stylesheet" href="{% static 'blog/style.css' %}">
@@ -20,38 +24,54 @@
     </head>
     <body>
         <header>
-            <nav>
-                <ul>
-                    <li> <a href="{% url 'blog:index' %}"> Home </a> </li>
-                    <li> <a href="{% url 'blog:post_list' %}"> Posts </a> </li>
-                </ul>
-                <ul>
+
+            <nav class="demo">
+                <a href="{% url 'blog:index' %}" class="brand">
+                    <img class="logo" src="{% static 'blog/logo-small.png' %}" />
+                    <span>Home</span>
+                </a>
+
+                <!-- responsive-->
+                <input id="bmenub" type="checkbox" class="show">
+                <label for="bmenub" class="burger pseudo button">menu</label>
+
+                <div class="menu">
+
+                    <a href="{% url 'blog:post_list' %}" class="pseudo button"> Posts </a>
                     {% if user.is_authenticated %}
-
-                        <li> <a href="{% url 'blog:profile' user.id %}">Profile</a> </li>
-
-                        <li> <a href="{% url 'password_change' %}">Change password</a> </li>
-
-                        <li>
-                            <form style="display: none" id="logout_form"
-                                  method="post" action="{% url 'logout' %}">
-                                {% csrf_token %}
-                            </form>
-                            <button type="submit" form="logout_form"> Logout </button>
-                        </li>
-
+                        <a href="{% url 'blog:user_detail' user.id %}" class="pseudo button">Profile</a>
+                        <a href="{% url 'password_change' %}" class="pseudo button">Change password</a>
+                        <form style="display: none" id="logout_form"
+                              method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                        </form>
+                        <button type="submit" form="logout_form"> Logout </button>
                     {% else %}
-
-                        <li> <a href="{% url 'login' %}">Login</a> </li>
-
+                        <a href="{% url 'login' %}" class="pseudo button">Login</a>
                     {% endif %}
-                </ul>
+                </div>
+
             </nav>
+
         </header>
 
         <main>
             {% block content %} {% endblock %}
         </main>
 
+        <footer>
+            <div class="decoration">
+
+                <img class="logo" src="{% static 'blog/corner-decor.png' %}" />
+                <img class="logo" src="{% static 'blog/horiz-decor.png' %}" />
+                <img class="logo" src="{% static 'blog/corner-decor.png' %}" />
+            </div>
+
+            <div class="copyright">
+                <span> <a href="#">About</a> </span>
+                <span> <a >Contact</a> </span>
+                <span><a >Our University</a></span>
+            </div>
+        </footer>
     </body>
 </html>

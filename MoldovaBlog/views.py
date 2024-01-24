@@ -1,12 +1,11 @@
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import generic
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
-from .forms import UserEmailCreationForm, EmailForm
-from .utils import assign_email
+from .forms import UserEmailCreationForm, ChangeEmailForm
+from .utils import assign_email, send_verification_email
 
 
 class SignUpView(generic.CreateView):
@@ -18,7 +17,11 @@ class SignUpView(generic.CreateView):
 
     def form_valid(self, form):
         # example: https://docs.djangoproject.com/en/5.0/topics/class-based-views/generic-editing/#basic-forms
-        form.send_verification_email()
+        email = form.cleaned_data["email"]
+        username = form.cleaned_data["username"]
+        hostname = self.request.get_host()
+        send_verification_email(hostname, username, email)
+
         return super().form_valid(form)
 
 
@@ -28,35 +31,31 @@ def verify_email(request, token):
     except ValueError as e:
         return HttpResponse(f"Couldn't validate token, {e}", status=400)
 
-    return HttpResponse(f"{username}, your email has been verified: {email}")
+    return render(request, "registration/email_confirmed.html")
+
+
+def email_sent(request):
+    return render(request, "registration/email_sent.html")
 
 
 @login_required
 def email_form_view(request):
-    success_url = reverse_lazy("blog:index")
+    success_url = reverse("email_sent")
     template_name = "registration/add_email.html"
 
     def form_valid(form):
-        form.send_verification_email()
+        username = request.user.username
+        email = form.cleaned_data["email"]
+        hostname = request.get_host()
+        send_verification_email(hostname, username, email)
 
     if request.method == "POST":
-        form = EmailForm(request, request.POST)
+        form = ChangeEmailForm(request, request.POST)
         if form.is_valid():
             form_valid(form)
             return HttpResponseRedirect(success_url)
 
     else:
-        form = EmailForm()
+        form = ChangeEmailForm()
 
     return render(request, template_name, {"form": form})
-
-
-
-# class EmailFormView(LoginRequiredMixin, generic.FormView):
-#     form_class = EmailForm
-#     template_name = "registration/add_email.html"
-#     success_url = reverse_lazy("blog:index")
-
-#     def form_valid(self, form):
-#         form.send_verification_email(self.request.user)
-#         return super().form_valid(form)

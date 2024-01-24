@@ -1,5 +1,7 @@
 {% extends "blog/base.html" %}
 
+{% load static %}
+
 {% block content %}
 
     <article>
@@ -20,20 +22,21 @@
 
     {% if post.image_set.all %}
         <section>
-            <hr />
             <header>
                 <h2>Gallery</h2>
             </header>
 
-            <div class='gallery-grid'>
+            <div class="flex one two-800 three-1200 grow demo">
                 {% for img in post.image_set.all %}
-                    <figure>
-                        <a class="spotlight"
-                           href="{{ img.file.url }}"
-                           data-description="{{ img.description }}">
-                            <img src="{{ img.file.url }}" alt="{{ img.alt }}">
-                        </a>
-                    </figure>
+                    <div>
+                        <article class="card">
+                            <a class="spotlight"
+                               href="{{ img.file.url }}"
+                               data-description="{{ img.description }}">
+                                <img src="{{ img.file.url }}" alt="{{ img.alt }}">
+                            </a>
+                        </article>
+                    </div>
                 {% endfor %}
             </div>
 
@@ -42,14 +45,8 @@
 
     {% if post.location %}
         <section>
-            <hr />
             <header>
                 <h2>Location</h2>
-                <p>You can view the location on the map.
-                    For more information about this embedded map, visit
-                    <a href="https://developers.google.com/maps/documentation/embed/get-started">
-                        Google's documentation</a>.
-                </p>
             </header>
 
             <iframe
@@ -66,46 +63,58 @@
     {% endif %}
 
 
-    <section class="comment">
-        <hr />
+    <section>
+
         <header>
             <h2>Comments</h2>
         </header>
-
-        {% if not post.comment_set.all %}
-            <p>Cricket chirp...</p>
-        {% else %}
-            {% for comment in post.comment_set.all %}
-                <aside id="{{ comment.pk }}">
-                    <div class="author">
-                        {% if comment.author %}
-                            <a href="{{ comment.author.profile.get_absolute_url }}">
-                                {{comment.author.username}}
-                            </a>
-                        {% else %}
-                            [deleted]
-                        {% endif %}
-                        posted
-                        <a href="{{  comment.get_absolute_url }}">
-                            <time datetime="{{ comment.pub_date.isoformat }}">{{ comment.get_time_passed }}</time>
-                        </a>
-                    </div>
-                    <p> {{ comment.text | linebreaks }} </p>
-                </aside>
-            {% endfor %}
-        {% endif %}
 
         {% if user.is_authenticated %}
             <section>
                 <form method="post" action="{% url 'blog:create_comment' post.id %}">
                     {% csrf_token %}
-                    <h2>Leave a comment</h2>
                     {{ comment_form }}
                     <input type="submit" value="Comment">
                 </form>
             </section>
         {% endif %}
 
+        {% if not post.comment_set.all %}
+            <p>Cricket chirp...</p>
+        {% else %}
+            {% for comment in post.comment_set.all %}
+
+                <aside id="{{ comment.pk }}" class="card comment comment_with_pfp">
+                    <img
+                        {% if comment.author.profile.picture %}
+                            src="{{  comment.author.profile.picture.url }}"
+                        {% else %}
+                            src="{% static 'blog/blank_profile_picture.png' %}"
+                        {% endif %}
+                        alt="User's profile picture" />
+
+                    <div>
+                        <header>
+                            {% if comment.author %}
+                                <a href="{{ comment.author.profile.get_absolute_url }}">
+                                    {{comment.author.username}}
+                                </a>
+                            {% else %}
+                                [deleted]
+                            {% endif %}
+                            posted
+                            <a href="{{  comment.get_absolute_url }}">
+                                <time datetime="{{ comment.pub_date.isoformat }}">{{ comment.get_time_passed }}</time>
+                            </a>
+                        </header>
+                        <p> {{ comment.text | linebreaksbr }} </p>
+                    </div>
+                </aside>
+
+            {% endfor %}
+        {% endif %}
+
     </section>
+
 
 {% endblock content %}

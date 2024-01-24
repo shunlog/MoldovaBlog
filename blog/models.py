@@ -22,7 +22,7 @@ class Profile(models.Model):
         p.save()
 
     def get_absolute_url(self):
-        return reverse('blog:profile', args=[str(self.user.pk)])
+        return reverse('blog:user_detail', args=[str(self.user.pk)])
 
     def role(self):
         if self.user.is_staff:

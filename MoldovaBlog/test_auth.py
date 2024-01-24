@@ -1,10 +1,12 @@
 import unittest
 import datetime
+import re
 
 from django.core import mail
 from django.test import Client, TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 from freezegun import freeze_time
 
 from .utils import create_verification_token, validate_verification_token
@@ -88,8 +90,9 @@ class AuthTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(len(mail.outbox), 1)
 
-        p = reverse("email_verify", args=('some_token',))
         # we can't compare the token as well because it's different every time
+        # so instead we just compare the URL up to the token
+        p = reverse("email_verify", args=('some_token',))
         path = p[:p.rfind('/')]
         ret = mail.outbox[0].body.find(path)
         self.assertNotEqual(ret, -1)
@@ -120,3 +123,75 @@ class AuthTestCase(TestCase):
 
         response = self.c.post(reverse("email_verify", args=(tok1,)))
         self.assertEqual(response.status_code, 400)
+
+    def test_signup_and_verify_email(self):
+        '''Simulate the entire process of signinp up and clicking the verification link.'''
+        response = self.c.post(reverse("signup"),
+                          {"username": self.uname,
+                           "password1": self.pwd,
+                           "password2": self.pwd,
+                           "email": self.email})
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(len(mail.outbox), 1)
+
+        email = mail.outbox[0].body
+        # hostname is "testserver", the rest is the path
+        path = re.search(r'testserver(/\S+)', email).group(1)
+        self.assertIsNotNone(path)
+
+        response = self.c.get(path)
+        self.assertEqual(response.status_code, 200)
+        u = User.objects.get(username=self.uname)
+        self.assertEqual(u.email, self.email)
+
+    def test_signup_without_email_then_add_one(self):
+        '''Simulate the entire process of signinp up and then adding and verifying an email.'''
+        # 1. register
+        response = self.c.post(reverse("signup"),
+                          {"username": self.uname,
+                           "password1": self.pwd,
+                           "password2": self.pwd})
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(len(mail.outbox), 0)
+
+        # 2. log in
+        response = self.c.post(reverse("login"), {"username": self.uname,
+                                                  "password": self.pwd})
+
+        # 3. change (add) email
+        response = self.c.post(reverse("email_form"),
+                               {'email': self.email,
+                                'password': self.pwd})
+        self.assertEqual(response.url, reverse("email_sent"))
+        self.assertEqual(len(mail.outbox), 1)
+
+        # 4. verify email
+        email = mail.outbox[0].body
+        path = re.search(r'testserver(/\S+)', email).group(1)  # hostname is "testserver", the rest is the path
+        self.assertIsNotNone(path)
+
+        response = self.c.get(path)
+        self.assertEqual(response.status_code, 200)
+        u = User.objects.get(username=self.uname)
+        self.assertEqual(u.email, self.email)
+
+    def test_change_email_wrong_password(self):
+        '''Verify that the user has to supply the right password to change his email.'''
+        User.objects.create_user(username=self.uname, password=self.pwd)
+        user = authenticate(None, username=self.uname, password=self.pwd)
+        self.assertIsNone(user)
+        login(None, user)
+
+        response = self.c.post(reverse("email_form"),
+                               {'email': self.email,
+                                'password': self.uname})
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(len(mail.outbox), 0)
+
+    def test_change_email_without_being_logged_in(self):
+        '''If you're not logged in, you can't change your email (duh).'''
+        response = self.c.post(reverse("email_form"),
+                               {'email': self.email,
+                                'password': self.pwd})
+        self.assertNotEqual(response.url, reverse("email_sent"))
+        self.assertEqual(len(mail.outbox), 0)

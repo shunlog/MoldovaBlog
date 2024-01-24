@@ -18,13 +18,13 @@ def create_verification_token(username, email):
     return jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
 
 
-def send_verification_email(username, email):
+def send_verification_email(hostname, username, email):
     '''Send verification link to email.'''
     token = create_verification_token(username, email)
     url = reverse("email_verify", args=(token,))
     send_mail(
         'MoldovaBlog email verification',
-        f'Visit the link to verify your email: {url}',
+        f'Visit the link to verify your email: {hostname}{url}',
         settings.EMAIL_HOST_USER,
         [email],
         fail_silently=False,
@@ -50,16 +50,16 @@ def assign_email(token):
     username, email = validate_verification_token(token)
 
     try:
-        u = User.objects.get(username=username)
-    except User.DoesNotExist:
-        raise ValueError("No such username")
-
-    try:
-        u = User.objects.get(email=email)
+        User.objects.get(email=email)
     except User.DoesNotExist:
         pass
     else:
         raise ValueError("Email already assigned")
+
+    try:
+        u = User.objects.get(username=username)
+    except User.DoesNotExist:
+        raise ValueError("No such username")
 
     u.email = email
     u.save()

@@ -4,8 +4,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ValidationError
 
-from .utils import send_verification_email
-
 
 def verify_unique_email(email):
     if email != "" and User.objects.filter(email=email).exists():
@@ -19,12 +17,6 @@ class UserEmailCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ("username", "email", "password1", "password2")
-
-    def send_verification_email(self):
-        # example: https://docs.djangoproject.com/en/5.0/topics/class-based-views/generic-editing/#basic-forms
-        email = self.cleaned_data["email"]
-        username = self.cleaned_data["username"]
-        send_verification_email(username, email)
 
     def save(self, commit=True):
         user = super(UserCreationForm, self).save(commit=False)
@@ -42,10 +34,10 @@ class UserEmailCreationForm(UserCreationForm):
         return email
 
 
-class EmailForm(LoginRequiredMixin, forms.Form):
-    email = forms.EmailField(label='Email', required=True)
+class ChangeEmailForm(LoginRequiredMixin, forms.Form):
+    email = forms.EmailField(label='New email', required=True)
     password = forms.CharField(
-        label="Password",
+        label="Your password",
         strip=False,
         widget=forms.PasswordInput(attrs={"autocomplete": "current-password"}))
 
@@ -66,8 +58,3 @@ class EmailForm(LoginRequiredMixin, forms.Form):
         email = self.cleaned_data['email']
         verify_unique_email(email)
         return email
-
-    def send_verification_email(self):
-        email = self.cleaned_data["email"]
-        username = self.request.user.username
-        send_verification_email(username, email)
