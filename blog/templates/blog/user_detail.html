@@ -6,6 +6,13 @@
 
 {% block content %}
 
+    {% if user.id == userobj.id and user.email == "" %}
+        <aside class="notification">
+            You still haven't <a href={% url 'email_form' %}>verified your email</a>.
+            You won't be able to reset your password without it.
+        </aside>
+    {% endif %}
+
     <div class="profile-view">
         <article>
             <header>

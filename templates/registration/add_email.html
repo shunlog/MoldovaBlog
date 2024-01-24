@@ -1,0 +1,16 @@
+{% extends "../blog/base.html" %}
+
+{% block content %}
+
+    <h1>{% block title %}Add email{% endblock %}</h1>
+
+    <p>After you tie an email to your account, you will be able to reset your password.
+        We will send a verification letter to this email to confirm it's yours.</p>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Send</button>
+    </form>
+
+{% endblock %}

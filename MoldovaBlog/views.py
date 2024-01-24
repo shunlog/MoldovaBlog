@@ -1,8 +1,11 @@
 from django.urls import reverse_lazy
 from django.views import generic
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
-from .forms import UserEmailCreationForm
+from .forms import UserEmailCreationForm, EmailForm
 from .utils import assign_email
 
 
@@ -26,3 +29,34 @@ def verify_email(request, token):
         return HttpResponse(f"Couldn't validate token, {e}", status=400)
 
     return HttpResponse(f"{username}, your email has been verified: {email}")
+
+
+@login_required
+def email_form_view(request):
+    success_url = reverse_lazy("blog:index")
+    template_name = "registration/add_email.html"
+
+    def form_valid(form):
+        form.send_verification_email()
+
+    if request.method == "POST":
+        form = EmailForm(request, request.POST)
+        if form.is_valid():
+            form_valid(form)
+            return HttpResponseRedirect(success_url)
+
+    else:
+        form = EmailForm()
+
+    return render(request, template_name, {"form": form})
+
+
+
+# class EmailFormView(LoginRequiredMixin, generic.FormView):
+#     form_class = EmailForm
+#     template_name = "registration/add_email.html"
+#     success_url = reverse_lazy("blog:index")
+
+#     def form_valid(self, form):
+#         form.send_verification_email(self.request.user)
+#         return super().form_valid(form)

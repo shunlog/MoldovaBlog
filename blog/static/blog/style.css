@@ -646,3 +646,10 @@ iframe {
     aspect-ratio: 1/1;
     object-fit: cover;
 }
+
+aside.notification {
+    background: var(--color-secondary-accent);
+    border-left: 4px solid var(--color-secondary);
+    padding: 0.8rem 0.8rem;
+    margin-bottom: 2rem;
+}

@@ -15,7 +15,7 @@ def index(request):
 
 class UserDetailView(DetailView):
     model = User
-    template_name = "blog/user_detail.html"
+    template_name = "blog/profile.html"
     context_object_name = "userobj"  # don't overwrite "user" object
 
     def get_context_data(self, **kwargs):
