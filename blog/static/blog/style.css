@@ -27,6 +27,13 @@ body > main {
     border: solid thick antiquewhite;
 }
 
+@media (min-width: 1100px) {
+    body > main {
+        padding-top: 30px;
+        margin-top: 120px;
+    }
+}
+
 @media (max-width: 500px) {
     body > main {
         padding-left: 20px;
