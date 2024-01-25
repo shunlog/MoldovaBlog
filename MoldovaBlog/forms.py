@@ -11,8 +11,10 @@ def verify_unique_email(email):
 
 
 class UserEmailCreationForm(UserCreationForm):
-    '''Override UserCreationForm to add an email field.'''
-    email = forms.EmailField(label='Email', required=False)
+    '''Sign up form. Override UserCreationForm to add an email field.'''
+    email = forms.EmailField(
+        label='Email', required=False,
+        help_text="Not required. Only useful if you forget your password.")
 
     class Meta:
         model = User

@@ -4,6 +4,7 @@ from .secret_settings import \
      EMAIL_USE_TLS, STATIC_URL, MEDIA_ROOT, MEDIA_URL, DATABASES,
      DEFAULT_AUTO_FIELD, STATIC_ROOT, SECURE_HSTS_SECONDS, SECURE_SSL_REDIRECT,
      SESSION_COOKIE_SECURE, CSRF_COOKIE_SECURE)
+from .validators import PasswordLengthValidator
 
 
 LANGUAGE_CODE = 'en-us'
@@ -57,24 +58,12 @@ TEMPLATES = [
     },
 ]
 
-
-# Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
-AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',},
-]
-
-
-# https://docs.djangoproject.com/en/5.0/topics/auth/passwords/#module-django.contrib.auth.password_validation
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-     "OPTIONS": {
-        "min_length": 9,
-     }},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
+    {"NAME": "MoldovaBlog.validators.PasswordLengthValidator", "OPTIONS": {
+        "min_length": 12,
+        "max_length": 128
+    }},
 ]
