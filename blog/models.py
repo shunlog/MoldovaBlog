@@ -72,7 +72,11 @@ class Comment(models.Model):
                                blank=True)
 
     def __str__(self):
-        return str(self.id)
+        try:
+            name = self.author.username
+        except:
+            name = '[]'
+        return f'{name}: {self.text[:20]}'
 
     def get_absolute_url(self):
         return reverse('blog:post_detail', args=[str(self.post.pk)])\

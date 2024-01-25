@@ -18,18 +18,29 @@ class ImagesInline(admin.TabularInline):
 class ProfileInline(admin.StackedInline):
     model = Profile
     can_delete = False
-    verbose_name_plural = "employee"
 
 
 class PostAdmin(admin.ModelAdmin):
     inlines = [CommentInline, ImagesInline]
+    list_display = ["title", "author", "pub_date"]
+
+
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ["text", "author", "pub_date"]
 
 
 class UserAdmin(BaseUserAdmin):
     inlines = [ProfileInline]
+    list_display = list(BaseUserAdmin.list_display) + ["date_joined"]
+
+
+class ImageAdmin(admin.ModelAdmin):
+    list_display = ["file", "post", "alt"]
 
 
 admin.site.register(Post, PostAdmin)
+admin.site.register(Comment, CommentAdmin)
+admin.site.register(Image, ImageAdmin)
 
 # https://docs.djangoproject.com/en/5.0/topics/auth/customizing/#extending-the-existing-user-model
 admin.site.unregister(User)
