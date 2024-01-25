@@ -70,7 +70,7 @@ body > footer > div{
 
     border-style: solid;
     border-image-source: url("./grapes_border.png");
-    border-image-slice: 285 285;
+    border-image-slice: 268 229 216 232;
     border-image-repeat: space;
     border-width: 50px; /* leave the top */
 }
