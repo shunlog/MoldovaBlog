@@ -10,3 +10,6 @@ class CommentForm(forms.ModelForm):
         labels = {
             "text": "Leave a comment:",
         }
+        widgets = {
+            "text": forms.Textarea(attrs={"rows": 3}),
+        }
