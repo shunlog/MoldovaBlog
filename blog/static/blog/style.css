@@ -1,3 +1,8 @@
+:root {
+  --bg-nav: #eadab5;
+  --bg-main: #fff9e6;
+}
+
 * {
     font-family: Lora;
 }
@@ -22,7 +27,7 @@ body > main {
     padding-bottom: 30px;
     padding-top: 80px;
     box-shadow: 0px 0px 50px 10px #00000050;
-    background-color: #fff9e6;
+    background-color: var(--bg-main);
     border: solid thick antiquewhite;
 }
 
@@ -42,7 +47,7 @@ body > main {
 }
 
 nav {
-    background-color: #eadab5;
+    background-color: var(--bg-nav);
 }
 
 /* Main footer */
@@ -60,7 +65,7 @@ body > footer {
 }
 
 body > footer > div{
-    background-color: #eadab5;
+    background-color: var(--bg-nav);
     width: 100%;
     text-align: center;
 
@@ -72,7 +77,8 @@ body > footer > div{
     border-image-source: url("./grapes_border.png");
     border-image-slice: 268 229 216 232;
     border-image-repeat: space;
-    border-width: 50px; /* leave the top */
+    border-width: 50px;
+    border-bottom-width: 0;
 }
 
 /* Forms */
@@ -94,6 +100,11 @@ form .helptext {
 form .errorlist {
     background-color: lightpink;
 }
+
+.warning {
+    background-color: antiquewhite;
+}
+
 
 form div ul {
     margin: 0;
@@ -158,17 +169,6 @@ iframe {
     width: 100%;
     aspect-ratio: 1;
     object-fit: cover;
-}
-
-aside.notification {
-    background: var(--color-secondary-accent);
-    border-left: 4px solid var(--color-secondary);
-    padding: 0.8rem 0.8rem;
-    margin-bottom: 2rem;
-}
-
-.warning {
-    background-color: lightyellow;
 }
 
 form > div {
