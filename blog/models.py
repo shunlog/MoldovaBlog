@@ -5,12 +5,13 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from .utils import time_passed_string
+from . import utils
 
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    picture = models.ImageField(blank=True)
+    picture = models.ImageField(blank=True,
+                                validators=[utils.file_size_validator(2)])
     bio = models.TextField(max_length=1000, blank=True)
 
     @receiver(post_save, sender=User)
@@ -48,7 +49,7 @@ class Post(models.Model):
         return reverse('blog:post_detail', args=[str(self.pk)])
 
     def get_time_passed(self):
-        return time_passed_string(self.pub_date)
+        return utils.time_passed_string(self.pub_date)
 
 
 class Image(models.Model):
@@ -78,4 +79,4 @@ class Comment(models.Model):
             + '#' + str(self.pk)
 
     def get_time_passed(self):
-        return time_passed_string(self.pub_date)
+        return utils.time_passed_string(self.pub_date)

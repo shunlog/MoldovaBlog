@@ -32,6 +32,9 @@
                     <p>Role: {{ userobj.profile.role }}</p>
                 </footer>
             </div>
+            {% if userobj.id == user.id %}
+                <a class="button" href="{% url "blog:profile_update" %}">Edit profile</a>
+            {% endif %}
         </div>
 
         <div class="full two-third-800">

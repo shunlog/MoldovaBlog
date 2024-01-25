@@ -2,11 +2,14 @@ from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.edit import CreateView
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, UpdateView
 from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django import forms
 
 from .models import Post, Comment, Profile
 from .forms import CommentForm
+from . import utils
 
 
 def index(request):
@@ -23,6 +26,15 @@ class UserDetailView(DetailView):
         context["comments"] = User.objects.get(id=self.kwargs['pk'])\
             .comment_set.order_by("-pub_date")
         return context
+
+
+class ProfileUpdateView(UpdateView, LoginRequiredMixin):
+    model = Profile
+    fields = ["picture", 'bio']
+
+    def get_object(self):
+        print(self.request)
+        return self.request.user.profile
 
 
 class PostDetailView(DetailView):
