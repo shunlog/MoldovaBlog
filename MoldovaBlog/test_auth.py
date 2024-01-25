@@ -178,14 +178,13 @@ class AuthTestCase(TestCase):
     def test_change_email_wrong_password(self):
         '''Verify that the user has to supply the right password to change his email.'''
         User.objects.create_user(username=self.uname, password=self.pwd)
-        user = authenticate(None, username=self.uname, password=self.pwd)
-        self.assertIsNone(user)
-        login(None, user)
+        self.c.login(username=self.uname, password=self.pwd)
 
         response = self.c.post(reverse("add_email"),
                                {'email': self.email,
                                 'password': self.uname})
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'errorlist')
         self.assertEqual(len(mail.outbox), 0)
 
     def test_change_email_without_being_logged_in(self):
