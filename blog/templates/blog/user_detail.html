@@ -10,7 +10,7 @@
         <aside class="card warning">
             <footer >
 
-            You still haven't <a href={% url 'email_form' %}>verified your email</a>.
+            You still haven't <a href={% url 'add_email' %}>verified your email</a>.
             You won't be able to reset your password without it.
             </footer>
         </aside>
@@ -34,6 +34,10 @@
             </div>
             {% if userobj.id == user.id %}
                 <a class="button" href="{% url "blog:profile_update" %}">Edit profile</a>
+                <a class="button" href="{% url 'password_change' %}">Change password</a>
+                {% if userobj.email %}
+                    <a class="button" href="{% url 'add_email' %}">Change email</a>
+                {% endif %}
             {% endif %}
         </div>
 

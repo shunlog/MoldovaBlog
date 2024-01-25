@@ -159,7 +159,7 @@ class AuthTestCase(TestCase):
                                                   "password": self.pwd})
 
         # 3. change (add) email
-        response = self.c.post(reverse("email_form"),
+        response = self.c.post(reverse("add_email"),
                                {'email': self.email,
                                 'password': self.pwd})
         self.assertEqual(response.url, reverse("email_sent"))
@@ -182,7 +182,7 @@ class AuthTestCase(TestCase):
         self.assertIsNone(user)
         login(None, user)
 
-        response = self.c.post(reverse("email_form"),
+        response = self.c.post(reverse("add_email"),
                                {'email': self.email,
                                 'password': self.uname})
         self.assertEqual(response.status_code, 400)
@@ -190,7 +190,7 @@ class AuthTestCase(TestCase):
 
     def test_change_email_without_being_logged_in(self):
         '''If you're not logged in, you can't change your email (duh).'''
-        response = self.c.post(reverse("email_form"),
+        response = self.c.post(reverse("add_email"),
                                {'email': self.email,
                                 'password': self.pwd})
         self.assertNotEqual(response.url, reverse("email_sent"))

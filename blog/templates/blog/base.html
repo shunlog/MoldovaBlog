@@ -44,7 +44,6 @@
                     <a href="{% url 'blog:post_list' %}" class="pseudo button"> Posts </a>
                     {% if user.is_authenticated %}
                         <a href="{% url 'blog:user_detail' user.id %}" class="pseudo button">Profile</a>
-                        <a href="{% url 'password_change' %}" class="pseudo button">Change password</a>
                         <form style="display: none" id="logout_form"
                               method="post" action="{% url 'logout' %}">
                             {% csrf_token %}

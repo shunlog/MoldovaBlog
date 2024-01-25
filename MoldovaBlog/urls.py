@@ -10,7 +10,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
 
     path("accounts/verify/done", views.email_sent, name="email_sent"),
-    path("accounts/verify", views.email_form_view, name="email_form"),
+    path("accounts/verify", views.add_email_view, name="add_email"),
     path("accounts/verify/<token>", views.verify_email, name="email_verify"),
     path("accounts/signup", views.SignUpView.as_view(), name="signup"),
     path("accounts/", include("django.contrib.auth.urls")),

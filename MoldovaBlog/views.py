@@ -39,7 +39,7 @@ def email_sent(request):
 
 
 @login_required
-def email_form_view(request):
+def add_email_view(request):
     success_url = reverse("email_sent")
     template_name = "registration/add_email.html"
 
