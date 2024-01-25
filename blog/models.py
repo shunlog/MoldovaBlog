@@ -11,7 +11,8 @@ from . import utils
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     picture = models.ImageField(blank=True,
-                                validators=[utils.file_size_validator(2)])
+                                validators=[utils.file_size_validator(2)],
+                                help_text="Maximum file size is 2 MiB")
     bio = models.TextField(max_length=1000, blank=True)
 
     @receiver(post_save, sender=User)
