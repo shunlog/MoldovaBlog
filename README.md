@@ -18,11 +18,9 @@ source .venv/bin/activate
 
 # Installation
 
-Clone this repository and run this in the project directory:
+Clone this repository and install the dependencies:
 ``` sh
 python3 -m pip install -r requirements.txt
-python3 manage.py migrate
-python3 manage.py createsuperuser  # create account for admin interface 
 ```
 
 Copy the example configuration to `MoldovaBlog/secret_config.py` and adapt it to your environment:
@@ -31,7 +29,13 @@ Copy the example configuration to `MoldovaBlog/secret_config.py` and adapt it to
 cp ./MoldovaBlog/example_secret_settings.py ./MoldovaBlog/secret_settings.py 
 ```
 
-Create the media folder at your chosen `MEDIA_ROOT`:`
+Run these:
+``` sh
+python3 manage.py migrate
+python3 manage.py createsuperuser  # create account for admin interface 
+```
+
+Create the media folder at your chosen `MEDIA_ROOT` (from the `secret-settings.py` file):
 
 ``` sh
 sudo mkdir -p /var/www
@@ -47,6 +51,16 @@ python3 manage.py migrate  # required if the models have been changed
 
 python3 manage.py runserver
 ```
+
+- homepage: http://127.0.0.1:8000/
+- admin page: http://127.0.0.1:8000/admin
+
+Things to try out:
+1. Create some posts on the admin page
+2. Go to the homepage and register a new user
+3. Find the posts you have created
+4. Leave some comments
+5. Log out, log in, reset password, etc.
 
 # Testing
 
