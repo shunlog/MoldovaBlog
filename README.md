@@ -3,6 +3,20 @@
 - Team 6
 - Web app in Django
 
+# Screenshots
+
+<p float="left">
+  <img src="img/home.png" width="49%" />
+  <img src="img/home2.png" width="49%" />
+  <img src="img/post.png" width="49%" />
+  <img src="img/comments.png" width="49%" />
+  <img src="img/user.png" width="49%" />
+  <img src="img/admin.png" width="49%" />
+  <img src="img/login.png" width="49%" />
+  <img src="img/signup.png" width="49%" />
+</p>
+
+
 # Requirements
 
     Django==5.0
