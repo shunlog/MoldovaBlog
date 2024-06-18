@@ -1,7 +1,23 @@
-# PBL: Secure Application Development
+# Secure Blog in Django
 
-- Team 6
-- Web app in Django
+This is a web app I developed for an university course in which we studied best security practices.
+The application is a simple blog/news website on which admins can post articles, and the users can register and leave comments.
+Although minimal, it has most of the basic features all modern web apps:
+- Authentication (sign up, login, session management)
+- Authorization (permissions)
+- File upload
+
+The goal of this project was to learn the best practices of developing secure web apps.
+The book "The Web Application Hacker’s Handbook" gives a good introduction to the topic.
+For a more structured approach in keeping track of all the various security features,
+we used the "[OWASP Application Security Verification Standard](https://owasp.org/www-project-application-security-verification-standard/)" document as a guide,
+We implemented most of the Level 1 requirements as well as some of Level 2,
+which is a pretty good assurance that our application is safe at least against the most common web app vulnerabilities.
+
+The [Django documentation on security](https://docs.djangoproject.com/en/5.0/topics/security/) was also a valuable resource for configuring our app correctly.
+In general, for the sake of security, we adopted a development methodology in which we would prefer ready solutions to writing our own,
+or at least doing a lot of research on the best solutions for every problem we encountered
+to make sure that most of our code is tested and highly reliable.
 
 # Screenshots
 
